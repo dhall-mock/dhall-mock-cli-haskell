@@ -18,7 +18,9 @@
 # resolver: ./custom-snapshot.yaml
 # resolver: https://example.com/snapshots/2018-01-01.yaml
 #resolver: lts-15.12
-resolver: nightly-2020-05-12
+#resolver: lts-15.3
+resolver: lts-14.27
+
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -37,6 +39,7 @@ packages:
 #
 extra-deps:
   - dhall-1.32.0@sha256:fbc63ca82b1b3992b2a0a80f88296279d41816d8c7fe72c6f8526f28b75c786b
+  - prettyprinter-1.6.1@sha256:11876ec94a79048e1d2942a99bfaa6f2be5222eafeedac6a9545673a79465009
 # - acme-missiles-0.3
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a

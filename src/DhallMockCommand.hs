@@ -15,8 +15,7 @@ import qualified Data.CaseInsensitive as CI
 import Data.Typeable (Typeable)
 import Network.Wreq (Options)
 import qualified Network.Wreq as Wreq
-import Network.HTTP.Client ( Manager(..)
-                           , defaultManagerSettings
+import Network.HTTP.Client ( defaultManagerSettings
                            , managerResponseTimeout
                            , responseTimeoutMicro )
 
@@ -35,9 +34,9 @@ methodGen =
 
 pathGen :: MonadGen m => m Path
 pathGen = do
-    let genPathChunk = Gen.text (Range.linear 1 50) Gen.alphaNum
+    let genPathChunk = Gen.text (Range.linear 10 20) Gen.alphaNum
 
-    numChunk <- Gen.integral (Range.linear 1 10)
+    numChunk <- Gen.integral (Range.linear 4 10)
 
     fmap (Path . ((<>) "/") . T.intercalate "/") $ replicateM numChunk genPathChunk
 

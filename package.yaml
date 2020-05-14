@@ -27,7 +27,6 @@ library:
   dependencies:
   - bytestring
   - case-insensitive
-  - dhall-mock-haskell
   - hedgehog
   - aeson
   - containers
@@ -38,6 +37,10 @@ library:
   - tasty
   - tasty-hedgehog
   - http-client
+  default-extensions:
+    - OverloadedStrings
+    - KindSignatures
+    - DeriveGeneric
 
 executables:
   dhall-mock-haskell-exe:
@@ -48,10 +51,11 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     - -Wall
-    default-extensions: 
-    - OverloadedStrings
-    - KindSignatures
-    - DeriveGeneric
+    dependencies:
+    - hedgehog
+    - tasty
+    - tasty-hedgehog
+    - dhall-mock-haskell
 
 tests:
   dhall-mock-haskell-test:
