@@ -1,0 +1,65 @@
+name:                dhall-mock-haskell
+version:             0.1.0.0
+github:              "https://github.com/dhall-mock/dhall-mock-haskell.git"
+license:             BSD3
+author:              "Romain Lecomte"
+maintainer:          "romain.lecomte.pub@gmail.com"
+copyright:           "2020 Romain Lecomte"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/dhall-mock/dhall-mock-haskell#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+
+library:
+  source-dirs: src
+  dependencies:
+  - bytestring
+  - case-insensitive
+  - dhall-mock-haskell
+  - hedgehog
+  - aeson
+  - containers
+  - text
+  - wreq
+  - lens
+  - dhall >= 1.32
+  - tasty
+  - tasty-hedgehog
+  - http-client
+
+executables:
+  dhall-mock-haskell-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -Wall
+    default-extensions: 
+    - OverloadedStrings
+    - KindSignatures
+    - DeriveGeneric
+
+tests:
+  dhall-mock-haskell-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - dhall-mock-haskell
