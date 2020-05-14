@@ -140,19 +140,19 @@ sendRandomRequestCmd =
             pure (resp ^. Wreq.responseStatus.Wreq.statusCode)
 
         mkPath e =
-            case e ^. expectationRequest.reqSpecPath of
+            case e ^. expRequest.reqPath of
               Just p  -> pure (_getPath p)
               Nothing -> fmap _getPath pathGen
 
         mkOpts e = do
-            let h  = e ^. expectationRequest.reqSpecHeaders
+            let h  = e ^. expRequest.reqHeaders
             h' <- headersGen
             let headers = fmap (bimap (CI.mk . encodeUtf8) encodeUtf8)
                         $ Map.toList
                         $ _getHeaders
                         $ h' <> h
 
-            let p = e ^. expectationRequest.reqSpecParams
+            let p = e ^. expRequest.reqParams
             p' <- paramsGen
             let params = _getParams $ p' <> p
 
@@ -163,12 +163,12 @@ sendRandomRequestCmd =
                  & Wreq.manager .~ Left (defaultManagerSettings { managerResponseTimeout = responseTimeoutMicro 10000 } )
 
         mkMethod e =
-            case e ^. expectationRequest.reqSpecMethod of
+            case e ^. expRequest.reqMethod of
               Just m  -> pure m
               Nothing -> methodGen
 
         mkBody e = do
-            b <- case e ^. expectationRequest.reqSpecBody of
+            b <- case e ^. expRequest.reqBody of
                    Just b  -> pure b
                    Nothing -> bodyGen
             pure $ case b of

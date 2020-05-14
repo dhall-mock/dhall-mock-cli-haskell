@@ -21,22 +21,22 @@ description:         Please see the README on GitHub at <https://github.com/dhal
 
 dependencies:
 - base >= 4.7 && < 5
+- lens
+- wreq
+default-extensions:
+- OverloadedStrings
+- KindSignatures
+- DeriveGeneric
 
 library:
   source-dirs: src
   dependencies:
-  - bytestring
-  - case-insensitive
-  - hedgehog
   - aeson
   - containers
   - text
   - wreq
   - lens
   - dhall >= 1.32
-  - tasty
-  - tasty-hedgehog
-  - http-client
   default-extensions:
     - OverloadedStrings
     - KindSignatures
@@ -52,9 +52,6 @@ executables:
     - -with-rtsopts=-N
     - -Wall
     dependencies:
-    - hedgehog
-    - tasty
-    - tasty-hedgehog
     - dhall-mock-haskell
 
 tests:
@@ -66,4 +63,19 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - aeson
+    - bytestring
+    - containers
+    - case-insensitive
     - dhall-mock-haskell
+    - hedgehog
+    - http-client
+    - lens
+    - tasty
+    - tasty-hedgehog
+    - text
+    - wreq
+    default-extensions:
+    - OverloadedStrings
+    - KindSignatures
+    - DeriveGeneric

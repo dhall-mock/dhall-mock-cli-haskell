@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5c5bc174bf860c706b90ffdd135f880c6fe5090f9d29f19df408e6b93658a440
+-- hash: 3dc20ee33df5b9674c76882236dc28c5bf85c863a2124d612606cfcc448af990
 
 name:           dhall-mock-haskell
 version:        0.1.0.0
@@ -28,24 +28,17 @@ source-repository head
 library
   exposed-modules:
       DhallMockApi
-      DhallMockCommand
   other-modules:
       Paths_dhall_mock_haskell
   hs-source-dirs:
       src
-  default-extensions: OverloadedStrings KindSignatures DeriveGeneric
+  default-extensions: OverloadedStrings KindSignatures DeriveGeneric OverloadedStrings KindSignatures DeriveGeneric
   build-depends:
       aeson
     , base >=4.7 && <5
-    , bytestring
-    , case-insensitive
     , containers
     , dhall >=1.32
-    , hedgehog
-    , http-client
     , lens
-    , tasty
-    , tasty-hedgehog
     , text
     , wreq
   default-language: Haskell2010
@@ -56,24 +49,37 @@ executable dhall-mock-haskell-exe
       Paths_dhall_mock_haskell
   hs-source-dirs:
       app
+  default-extensions: OverloadedStrings KindSignatures DeriveGeneric
   ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall
   build-depends:
       base >=4.7 && <5
     , dhall-mock-haskell
-    , hedgehog
-    , tasty
-    , tasty-hedgehog
+    , lens
+    , wreq
   default-language: Haskell2010
 
 test-suite dhall-mock-haskell-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      DhallMockCommand
       Paths_dhall_mock_haskell
   hs-source-dirs:
       test
+  default-extensions: OverloadedStrings KindSignatures DeriveGeneric OverloadedStrings KindSignatures DeriveGeneric
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
+    , bytestring
+    , case-insensitive
+    , containers
     , dhall-mock-haskell
+    , hedgehog
+    , http-client
+    , lens
+    , tasty
+    , tasty-hedgehog
+    , text
+    , wreq
   default-language: Haskell2010

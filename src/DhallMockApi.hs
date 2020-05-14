@@ -87,39 +87,54 @@ instance ToDhall Headers where
     injectWith opts = contramap _getHeaders (injectWith opts)
 
 data ReqSpec =
-    ReqSpec { _reqSpecMethod  :: Maybe HttpMethod
-            , _reqSpecPath    :: Maybe Path
-            , _reqSpecBody    :: Maybe Body
-            , _reqSpecParams  :: QueryParams
-            , _reqSpecHeaders :: Headers
+    ReqSpec { _reqMethod  :: Maybe HttpMethod
+            , _reqPath    :: Maybe Path
+            , _reqBody    :: Maybe Body
+            , _reqParams  :: QueryParams
+            , _reqHeaders :: Headers
             } deriving (Eq, Show, Generic)
 
 instance ToDhall ReqSpec where
-    injectWith _ = genericToDhallWith $ dhallStripPrefix "_reqSpec"
+    injectWith _ = genericToDhallWith $ dhallStripPrefix "_req"
 
 makeLenses ''ReqSpec
 
 data RespSpec =
-    RespSpec { _respSpecStatusCode   :: Maybe Int
-             , _respSpecStatusReason :: Maybe Text
-             , _respSpecBody         :: Maybe Text
-             , _respSpecHeaders      :: Headers
+    RespSpec { _respStatusCode   :: Maybe Int
+             , _respStatusReason :: Maybe Text
+             , _respBody         :: Maybe Text
+             , _respHeaders      :: Headers
              } deriving (Eq, Show, Generic)
 
 instance ToDhall RespSpec where
-    injectWith _ = genericToDhallWith $ dhallStripPrefix "_respSpec"
+    injectWith _ = genericToDhallWith $ dhallStripPrefix "_resp"
 
 makeLenses ''RespSpec
 
 data Expectation =
-    Expectation { _expectationRequest  :: ReqSpec
-                , _expectationResponse :: RespSpec
+    Expectation { _expRequest  :: ReqSpec
+                , _expResponse :: RespSpec
                 } deriving (Eq, Show, Generic)
 
 instance ToDhall Expectation where
-    injectWith _ = genericToDhallWith $ dhallStripPrefix "_expectation"
+    injectWith _ = genericToDhallWith $ dhallStripPrefix "_exp"
 
 makeLenses ''Expectation
+
+defaultExpectation :: Expectation
+defaultExpectation =
+    let req = ReqSpec { _reqMethod  = Nothing
+                      , _reqPath    = Nothing
+                      , _reqBody    = Nothing
+                      , _reqParams  = mempty
+                      , _reqHeaders = mempty
+                      }
+        resp = RespSpec { _respStatusCode   = Nothing
+                        , _respStatusReason = Nothing
+                        , _respBody         = Nothing
+                        , _respHeaders      = mempty
+                        }
+     in Expectation req resp
 
 postExpectation :: Expectation -> IO ()
 postExpectation expectation = do

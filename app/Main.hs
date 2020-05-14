@@ -1,23 +1,17 @@
 module Main where
 
-import DhallMockCommand (MockState(..), registerExpectationCmd, sendRandomRequestCmd)
-
-import Hedgehog (TestLimit, forAll, property, executeParallel, withTests)
-import qualified Hedgehog.Gen       as Gen
-import qualified Hedgehog.Range     as Range
-
-import Test.Tasty (TestTree, defaultMain)
-import Test.Tasty.Hedgehog (testProperty)
+import Control.Lens
+import DhallMockApi
+import Network.Wreq as Wreq
 
 main :: IO ()
-main = defaultMain propRegExpectation
+main = do
+    let e = defaultExpectation
+          & expRequest.reqMethod .~ (Just GET)
+          & expRequest.reqPath .~ (Just $ Path "/foo/bar")
+          & expResponse.respStatusCode .~ (Just 200)
 
-propRegExpectation :: TestTree
-propRegExpectation =
-  testProperty "register-expectation" . withTests (20 :: TestLimit) . property $ do
-  let
-    commands = [registerExpectationCmd, sendRandomRequestCmd]
-    initialState = MockState []
-    parr = Gen.parallel (Range.linear 10 100) (Range.linear 1 10)
-  actions <- forAll $ parr initialState commands
-  executeParallel initialState actions
+    postExpectation e
+    resp <- Wreq.get "http://localhost:8088/foo/bar"
+    print $ resp ^. responseStatus . statusCode
+
