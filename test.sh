@@ -1,5 +1,9 @@
 #!/bin/bash
 
-${dhall_mock}/bin/main
+dhallmock &
+
+export DHALLMOCK_PID=$!
+
+echo "dhall mock run with pid $DHALLMOCK_PID"
 
 
