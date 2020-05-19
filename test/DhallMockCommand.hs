@@ -111,7 +111,7 @@ registerExpectationCmd =
     let gen (MockState _) = Just $ fmap RegisterExpectation expectationGen
         execute (RegisterExpectation e) = liftIO $ do
             print ("register request..." :: String)
-            postExpectation e
+            postExpectation defaultClient e
      in Command gen execute [
             Update $ \(MockState catalog) (RegisterExpectation e) _rsp ->
                 MockState (e:catalog)

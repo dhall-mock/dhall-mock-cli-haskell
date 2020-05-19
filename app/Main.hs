@@ -11,7 +11,7 @@ main = do
           & expRequest.reqPath .~ (Just $ Path "/foo/bar")
           & expResponse.respStatusCode .~ (Just 200)
 
-    postExpectation e
+    postExpectation defaultClient e
     resp <- Wreq.get "http://localhost:8088/foo/bar"
     print $ resp ^. responseStatus . statusCode
 

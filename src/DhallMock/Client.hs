@@ -118,6 +118,10 @@ instance ToDhall Expectation where
 
 makeLenses ''Expectation
 
+data Client = Client { _dhallMockClientHost       :: Text
+                     , _dhallMockClientAdminPort  :: Int
+                     }
+
 defaultExpectation :: Expectation
 defaultExpectation =
     let req = ReqSpec { _reqMethod  = Nothing
@@ -133,8 +137,12 @@ defaultExpectation =
                         }
      in Expectation req resp
 
-postExpectation :: Expectation -> IO ()
-postExpectation expectation = do
+defaultClient :: Client
+defaultClient = Client "localhost" 8089
+
+postExpectation :: Client -> Expectation -> IO ()
+postExpectation cli expectation = do
     let payload = DhallC.pretty $ Dhall.embed Dhall.inject [expectation]
-    _ <- Wreq.post "http://localhost:8089/expectations" (encodeUtf8 payload)
+    let url = "http://" <> (T.unpack $ _dhallMockClientHost cli) <> ":" <> (show $ _dhallMockClientAdminPort cli) <> "/expectations"
+    _ <- Wreq.post url (encodeUtf8 payload)
     return ()
