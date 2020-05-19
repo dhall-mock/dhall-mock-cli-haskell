@@ -1,9 +1,6 @@
-{-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE DerivingStrategies #-}
-{-# LANGUAGE DerivingVia #-}
 
-module DhallMockApi where
+module DhallMock.Client where
 
 import Control.Lens
 import qualified Data.Aeson as Json

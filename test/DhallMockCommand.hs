@@ -10,7 +10,7 @@ import Data.Text (Text)
 import Data.Text.Encoding (encodeUtf8)
 import qualified Data.Text as T
 import qualified Data.Aeson as Aeson
-import DhallMockApi
+import DhallMock.Client
 import qualified Data.CaseInsensitive as CI
 import Data.Typeable (Typeable)
 import Network.Wreq (Options)
@@ -110,7 +110,7 @@ registerExpectationCmd :: (MonadGen gen, MonadIO m, MonadTest m)
 registerExpectationCmd =
     let gen (MockState _) = Just $ fmap RegisterExpectation expectationGen
         execute (RegisterExpectation e) = liftIO $ do
-            print "register request..."
+            print ("register request..." :: String)
             postExpectation e
      in Command gen execute [
             Update $ \(MockState catalog) (RegisterExpectation e) _rsp ->
@@ -130,7 +130,7 @@ sendRandomRequestCmd =
                else Just $ toSubmitRequest =<< Gen.element expectations
 
         execute (SubmitRequest _ p opts m b) = liftIO $ do
-            print "submit request..."
+            print ("submit request..." :: String)
             resp <- case m of
               GET    -> Wreq.customPayloadMethodWith "GET" opts (T.unpack p) b
               POST   -> Wreq.customPayloadMethodWith "POST" opts (T.unpack p) b

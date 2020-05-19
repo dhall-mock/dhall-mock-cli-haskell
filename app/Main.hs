@@ -1,7 +1,7 @@
 module Main where
 
 import Control.Lens
-import DhallMockApi
+import DhallMock.Client
 import Network.Wreq as Wreq
 
 main :: IO ()

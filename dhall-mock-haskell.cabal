@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3dc20ee33df5b9674c76882236dc28c5bf85c863a2124d612606cfcc448af990
+-- hash: c3e4182e96ee9171313c444a9cd24988371bc71ec1709ac6566cd0ed864ad6e6
 
 name:           dhall-mock-haskell
 version:        0.1.0.0
@@ -27,7 +27,7 @@ source-repository head
 
 library
   exposed-modules:
-      DhallMockApi
+      DhallMock.Client
   other-modules:
       Paths_dhall_mock_haskell
   hs-source-dirs:
